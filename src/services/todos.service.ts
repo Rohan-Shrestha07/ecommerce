@@ -37,13 +37,21 @@ export const getTodo = async (id: any)=>{
 
 //DELETE todos
 export const deletePost = async (id: any)=>{
-    return await prisma.todo.delete({
-        where:{
-            id:Number(id),
-            
-        },
-    })
-}
+    try{
+        return await prisma.todo.delete({
+            where:{
+                id:Number(id),
+                
+            },
+        })
+    } catch(err:any){
+        if(err.code === 'P2025'){
+            throw Boom.notFound('Post not found')
+        }else{
+            throw err
+        }
+    }
+    }
 
 //UPDATE by id
 export const updateTodo = async (id: any, body: any) => {
