@@ -16,3 +16,26 @@ model todo{
   title  String?
   status String?
 }
+
+model User {
+  id           Int         @id @default(autoincrement())
+  email        String      @unique
+  password     String
+  phone_number String?
+  // orders       ShopOrder[]
+  is_admin     Boolean     @default(false)
+  addresses    Address[]
+}
+
+model Address {
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [user_id], references: [id])
+  user_id       Int
+  street_number String
+  address_line1 String
+  address_line2 String?
+  city          String
+  region        String
+  postal_code   String
+  // shop_order    ShopOrder[]
+}

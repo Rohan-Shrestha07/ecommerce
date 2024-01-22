@@ -6,6 +6,8 @@
 //import express, { NextFunction } from 'express'
 import express from 'express'
 import todosRouter from './routes/todos.router'
+import authRouter from './routes/auth.route'
+import userRouter from './routes/user.routes'
 import {NextFunction,Request,Response} from "express"
 import buildError from './utils/build-errors'
 
@@ -18,6 +20,11 @@ app.listen(PORT, () => console.log(`Server ready at: http://localhost:${PORT}`))
 
 //Get way to todos
 app.use('/todos',todosRouter)
+
+app.use('/auth',authRouter)
+
+app.use('/user',userRouter)
+
 
 //Error checking
 app.use((err:any ,req:Request,res:Response,next:NextFunction)=>{

@@ -3,9 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-
-import { PrismaClient } from "@prisma/client";
-import Boom from '@hapi/Boom'
+import { PrismaClient } from '@prisma/client'
+import Boom from '@hapi/boom'
 
 const prisma = new PrismaClient()
 
@@ -21,37 +20,36 @@ export const postTodo = async (body: any) => {
 }
 
 //GET todos
-export const getTodo = async (id: any)=>{
-    try{
+export const getTodo = async (id: any) => {
+    try {
         return await prisma.todo.findUniqueOrThrow({
-        where:{id:Number(id)},
+            where: { id: Number(id) },
         })
-    } catch (err:any){
-        if(err.code === 'P2025'){
+    } catch (err: any) {
+        if (err.code === 'P2025') {
             throw Boom.notFound('Post not found')
-        }else{
+        } else {
             throw err
         }
     }
 }
 
 //DELETE todos
-export const deletePost = async (id: any)=>{
-    try{
+export const deletePost = async (id: any) => {
+    try {
         return await prisma.todo.delete({
-            where:{
-                id:Number(id),
-                
+            where: {
+                id: Number(id),
             },
         })
-    } catch(err:any){
-        if(err.code === 'P2025'){
+    } catch (err: any) {
+        if (err.code === 'P2025') {
             throw Boom.notFound('Post not found')
-        }else{
+        } else {
             throw err
         }
     }
-    }
+}
 
 //UPDATE by id
 export const updateTodo = async (id: any, body: any) => {

@@ -13,16 +13,18 @@ import { getTodoById } from '../validators/createpost.validator'
 import { deleteTodoById } from '../validators/createpost.validator'
 import { updateTodoById  ,updateTodoByBody } from '../validators/createpost.validator'
 import { validate, validateById } from '../utils/validate'
+import { authenticateToken , isAdmin} from '../middlewares/authentication.middleware'
 
 
 //POST todos 
 router.post('/', validate(createPostTodo), TodoController.postTodos);
 
 //GET todos by id
-router.get("/:id",validateById(getTodoById), TodoController.getTodos )
+router.get("/:id",validateById(getTodoById),authenticateToken, TodoController.getTodos )
 
 //DELETE todos by id
-router.delete('/:id',validateById(deleteTodoById),TodoController.deleteTodos)
+router.delete('/:id',validateById(deleteTodoById),authenticateToken,isAdmin,
+TodoController.deleteTodos)
 
 //UPDATE todos
 router.put('/:id',validateById(updateTodoById),validate(updateTodoByBody), TodoController.updateTodo)
