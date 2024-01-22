@@ -9,9 +9,7 @@ export const signupBodySchema = z.object({
     password: z.string({
         required_error: 'Password is required',
     }),
-    is_admin: z.boolean({
-        required_error:'User is admin or not'
-    }),
+    is_admin: z.boolean().default(false),
     phone_number: z.optional(z.string())
 })
 
