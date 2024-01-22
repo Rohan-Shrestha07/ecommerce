@@ -8,9 +8,9 @@ import express from 'express'
 import todosRouter from './routes/todos.router'
 import authRouter from './routes/auth.route'
 import userRouter from './routes/user.routes'
-import {NextFunction,Request,Response} from "express"
+import { NextFunction, Request, Response } from 'express'
 import buildError from './utils/build-errors'
-
+import HttpStatus from 'http-status-codes'
 const app = express()
 
 app.use(express.json())
@@ -19,17 +19,24 @@ const PORT = 3000
 app.listen(PORT, () => console.log(`Server ready at: http://localhost:${PORT}`))
 
 //Get way to todos
-app.use('/todos',todosRouter)
+app.use('/todos', todosRouter)
 
-app.use('/auth',authRouter)
+app.use('/auth', authRouter)
 
-app.use('/user',userRouter)
+app.use('/user', userRouter)
 
+app.use(function methodNotAllowed(req: Request, res: Response) {
+    res.status(HttpStatus.METHOD_NOT_ALLOWED).json({
+        error: {
+            code: HttpStatus.METHOD_NOT_ALLOWED,
+            message: HttpStatus.getStatusText(HttpStatus.METHOD_NOT_ALLOWED),
+        },
+    })
+})
 
 //Error checking
-app.use((err:any ,req:Request,res:Response,next:NextFunction)=>{
-   const error = buildError(err)
-   res.status(error.code).send({error})
-
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    const error = buildError(err)
+    res.status(error.code).send({ error })
 })
 export default app
