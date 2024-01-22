@@ -7,7 +7,8 @@
         "dev": "nodemon ./src/main.ts",
         "start": "ts-node ./src/main.ts",
         "format": "prettier --write .",
-        "lint-fix": "eslint --ignore-path .eslintignore . --fix"
+        "lint-fix": "eslint --ignore-path .eslintignore . --fix",
+        "deploy_migrate":"npx prisma migrate deploy && npm run dev"
     },
     "author": "",
     "license": "ISC",
